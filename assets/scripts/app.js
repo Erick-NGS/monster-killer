@@ -10,12 +10,26 @@ const LOG_PLAYER_HEAL = 'PLAYER_HEAL';
 const LOG_MONSTER_ATK = 'MONSTER_ATTACK';
 const LOG_GAME_OVER = 'GAME_OVER';
 
-const userInput = prompt('Max life', '100');
+const getLife = () => {
+  const userInput = prompt('Max life', '100');
+  const parsedLife = parseInt(userInput);
+  if (isNaN(parsedLife) || parsedLife <= 0) {
+    throw {
+      message: `Invalid input! Please insert a number.`,
+    };
+  }
+  return parsedLife;
+};
 
-let userMaxLife = parseInt(userInput);
+let userMaxLife;
 
-if (isNaN(userMaxLife) || userMaxLife <= 0) {
-  userMaxLife = '100';
+try {
+  userMaxLife = getLife();
+} catch (error) {
+  console.log(error);
+  userMaxLife = 100;
+  alert('Invalid value! Default value set to 100.');
+  // throw error;
 }
 
 let currentMonsterHealth = userMaxLife;
